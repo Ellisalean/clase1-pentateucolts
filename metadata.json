@@ -1,7 +1,6 @@
+
 {
-  "name": "BibliaConnect - Estudio del Pentateuco",
-  "description": "Una aplicación interactiva y responsiva para el estudio bíblico, centrada en el libro de Génesis y los orígenes del pueblo de Dios.",
-  "requestFramePermissions": [
-    "geolocation"
-  ]
+  "name": "LatinTheologicalSeminary - Lección 1: Génesis",
+  "description": "Una plataforma educativa interactiva y totalmente responsiva para el estudio del Pentateuco, enfocada en los orígenes del pueblo de Dios en el libro de Génesis.",
+  "requestFramePermissions": []
 }

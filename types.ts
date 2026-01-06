@@ -4,21 +4,46 @@ export interface Lesson {
   title: string;
   subtitle: string;
   duration: string;
-  type: 'video' | 'book' | 'scroll' | 'landmark' | 'quiz';
+  icon: string;
   image: string;
-}
-
-export interface Module {
-  id: string;
-  title: string;
-  lessons: Lesson[];
+  type: 'video' | 'book' | 'scroll' | 'landmark' | 'quiz';
 }
 
 export interface Resource {
   id: string;
   title: string;
-  type: 'pdf' | 'map' | 'clock' | 'video' | 'quiz' | 'activity' | 'gallery';
-  meta: string;
+  type: string;
   category: string;
-  url: string;
+  link: string;
+  icon: string;
+}
+
+export interface InteractiveCardData {
+  title: string;
+  description: string;
+  icon: string;
+  link: string;
+  btnText: string;
+}
+
+export interface SlideData {
+  title: string;
+  content: string[];
+  image: string;
+  quote?: {
+    text: string;
+    author: string;
+  };
+}
+
+export interface TimelineEvent {
+  day: string;
+  title: string;
+  description: string;
+  verse?: string;
+}
+
+export enum SidebarTab {
+  OUTLINE = 'outline',
+  RESOURCES = 'resources'
 }
