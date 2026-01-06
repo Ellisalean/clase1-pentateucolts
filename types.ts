@@ -1,33 +1,24 @@
 
-export interface QuizQuestion {
-    question: string;
-    options: string[];
-    correctAnswer: string;
+export interface Lesson {
+  id: string;
+  title: string;
+  subtitle: string;
+  duration: string;
+  type: 'video' | 'book' | 'scroll' | 'landmark' | 'quiz';
+  image: string;
 }
 
-export interface DragItem {
-    id: string;
-    type: 'item';
-    content: string;
+export interface Module {
+  id: string;
+  title: string;
+  lessons: Lesson[];
 }
 
-export interface DropTarget {
-    id: string;
-    type: 'target';
-    content: string;
-    expectedId: string;
-}
-
-export interface TimelineEventData {
-    period: string;
-    title: string;
-    description: string;
-}
-
-export interface Hotspot {
-    id: number;
-    x: number; // percentage
-    y: number; // percentage
-    title: string;
-    description: string;
+export interface Resource {
+  id: string;
+  title: string;
+  type: 'pdf' | 'map' | 'clock' | 'video' | 'quiz' | 'activity' | 'gallery';
+  meta: string;
+  category: string;
+  url: string;
 }

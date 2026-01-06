@@ -1,159 +1,87 @@
 
-import React from 'react';
-import { Header } from './components/Header';
-import { Section } from './components/Section';
-import { Quote } from './components/Quote';
-import { Accordion, AccordionItem } from './components/Accordion';
-import { Tabs, TabPanel } from './components/Tabs';
-import { Timeline } from './components/Timeline';
-import { Quiz } from './components/Quiz';
-import { FillInTheBlank } from './components/FillInTheBlank';
-import { DragAndDrop } from './components/DragAndDrop';
-import { InteractiveImage } from './components/InteractiveImage';
-import { GeminiSection } from './components/GeminiSection';
-import { CHAPTER_1_TEXT, CHAPTER_2_TEXT, QUIZ_QUESTIONS, DRAG_DROP_ITEMS, TIMELINE_EVENTS, CREATION_HOTSPOTS, FILL_IN_THE_BLANK_2 } from './constants';
-import { BookOpen, Lightbulb, Heart, Wind, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { MODULES, RESOURCES } from './constants';
+import Sidebar from './components/Sidebar';
+import Banner from './components/Banner';
+import LessonContent from './components/LessonContent';
+import { Lesson } from './types';
 
 const App: React.FC = () => {
+  const [currentLessonId, setCurrentLessonId] = useState<string>('lesson1');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'outline' | 'resources'>('outline');
 
-    return (
-        <div className="min-h-screen bg-brand-bg">
-            <Header title="Visión de Conjunto: Desde Génesis hasta Malaquías" subtitle="Capítulo 1" />
-            
-            <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-12">
+  const currentLesson = MODULES[0].lessons.find(l => l.id === currentLessonId) || MODULES[0].lessons[0];
 
-                <Section title="Una Historia Compartida">
-                    <p className="text-lg leading-relaxed mb-4">{CHAPTER_1_TEXT.intro1}</p>
-                    <p className="text-lg leading-relaxed">{CHAPTER_1_TEXT.intro2}</p>
-                </Section>
-                
-                <Quote text={CHAPTER_1_TEXT.quote1} source="Génesis 18:19" />
+  const handleLessonChange = (id: string) => {
+    setCurrentLessonId(id);
+    setIsSidebarOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-                <Section title="Los Pilares de la Fe del Pueblo de Dios">
-                    <Tabs tabLabels={["Fe", "Amor", "Esperanza"]}>
-                        <TabPanel>
-                            <p className="leading-relaxed">{CHAPTER_1_TEXT.faith}</p>
-                        </TabPanel>
-                        <TabPanel>
-                            <p className="leading-relaxed">{CHAPTER_1_TEXT.love}</p>
-                        </TabPanel>
-                        <TabPanel>
-                             <p className="leading-relaxed">{CHAPTER_1_TEXT.hope}</p>
-                        </TabPanel>
-                    </Tabs>
-                </Section>
-
-                <Section title="Las Grandes Promesas" icon={<BookOpen className="w-6 h-6 text-brand-primary" />}>
-                     <Accordion>
-                        <AccordionItem title="La Promesa de una Simiente">
-                            <p>{CHAPTER_1_TEXT.promiseSeed}</p>
-                        </AccordionItem>
-                        <AccordionItem title="La Promesa de una Herencia">
-                            <p>{CHAPTER_1_TEXT.promiseInheritance}</p>
-                        </AccordionItem>
-                     </Accordion>
-                </Section>
-
-                <Section title="Repaso Interactivo: Completa la Frase">
-                    <FillInTheBlank
-                        sentence="La revelación del Antiguo Testamento es la narración de cómo Dios ha cambiado a una muchedumbre de ___, transformándolos en propiedad suya."
-                        correctAnswer="pecadores"
-                    />
-                </Section>
-
-                <Section title="La Trayectoria Histórica del Pueblo de Dios">
-                    <Timeline events={TIMELINE_EVENTS} />
-                </Section>
-
-                <Section title="El Conflicto Espiritual: Dos Simientes">
-                    <p className="mb-4">{CHAPTER_1_TEXT.satanIntro}</p>
-                     <Accordion>
-                        <AccordionItem title="El Origen del Conflicto">
-                             <p>{CHAPTER_1_TEXT.satanConflictOrigin}</p>
-                        </AccordionItem>
-                        <AccordionItem title="La Oposición a través de la Historia">
-                             <p>{CHAPTER_1_TEXT.satanOpposition}</p>
-                        </AccordionItem>
-                     </Accordion>
-                </Section>
-                
-                <Section title="Juego de Repaso: Asocia el Libro con su Tema">
-                    <DragAndDrop items={DRAG_DROP_ITEMS} />
-                </Section>
-
-                <Section title="Comprueba tu Comprensión">
-                    <Quiz questions={QUIZ_QUESTIONS} />
-                </Section>
-
-                <Quote text="Jesucristo es el mismo ayer, y hoy, y por los siglos." source="Hebreos 13:8" />
-                
-                <div className="border-t-2 border-brand-secondary my-16"></div>
-
-                <Header title="Los Orígenes del Pueblo de Dios" subtitle="Capítulo 2" />
-
-                <Section title="El Propósito Eterno en la Creación">
-                    <p className="leading-relaxed mb-4">{CHAPTER_2_TEXT.purpose}</p>
-                    <div className="bg-brand-light p-4 rounded-lg border-l-4 border-brand-primary">
-                        <p className="font-sans font-semibold text-brand-text">Cita Clave: Efesios 1:4</p>
-                        <p className="italic">"...según nos escogió en él antes de la fundación del mundo, para que fuésemos santos y sin mancha delante de él, en amor..."</p>
-                    </div>
-                </Section>
-
-                <Section title="La Obra Creadora de Dios (Génesis 1)" icon={<Wind className="w-6 h-6 text-brand-primary"/>}>
-                    <p className="mb-4">{CHAPTER_2_TEXT.creationWork}</p>
-                    <Accordion>
-                        <AccordionItem title="Orden desde el Caos: Luz y Vida">
-                            <p>{CHAPTER_2_TEXT.orderFromChaos}</p>
-                        </AccordionItem>
-                        <AccordionItem title="Un Mundo Diferente: La Visión Pre-Diluvio">
-                             <p>{CHAPTER_2_TEXT.differentWorld}</p>
-                        </AccordionItem>
-                        <AccordionItem title="La Creación del Hombre: A Imagen de Dios">
-                             <p>{CHAPTER_2_TEXT.creationOfMan}</p>
-                        </AccordionItem>
-                    </Accordion>
-                </Section>
-                
-                <Section title="Explora los Días de la Creación" icon={<Lightbulb className="w-6 h-6 text-brand-primary" />}>
-                    <InteractiveImage 
-                        imageUrl="https://picsum.photos/seed/creation/800/500"
-                        altText="Representación abstracta de la creación"
-                        hotspots={CREATION_HOTSPOTS}
-                    />
-                </Section>
-
-                <Section title="El Cuidado Personal de Dios (Génesis 2)" icon={<Heart className="w-6 h-6 text-brand-primary"/>}>
-                    <p className="mb-4">{CHAPTER_2_TEXT.personalCare}</p>
-                    <Tabs tabLabels={["Provisión y Prueba", "El Descanso del Sabbath", "La Mujer y la Familia"]}>
-                        <TabPanel>
-                            <p>{CHAPTER_2_TEXT.gardenAndProvision}</p>
-                        </TabPanel>
-                        <TabPanel>
-                            <p>{CHAPTER_2_TEXT.sabbathRest}</p>
-                        </TabPanel>
-                        <TabPanel>
-                             <p>{CHAPTER_2_TEXT.womanAndFamily}</p>
-                        </TabPanel>
-                    </Tabs>
-                </Section>
-
-                <Section title="Repaso Clave del Capítulo 2">
-                    <FillInTheBlank
-                        sentence={FILL_IN_THE_BLANK_2.sentence}
-                        correctAnswer={FILL_IN_THE_BLANK_2.correctAnswer}
-                    />
-                </Section>
-
-                <Section title="¿Tienes Preguntas? ¡Consulta al Experto!" icon={<Sparkles className="w-6 h-6 text-brand-primary"/>}>
-                    <GeminiSection context={CHAPTER_1_TEXT.fullText + '\n\n' + CHAPTER_2_TEXT.fullText} />
-                </Section>
-            </main>
-
-            <footer className="text-center p-6 mt-12 bg-brand-light text-brand-secondary font-sans text-sm">
-                <p>Curso del PENTATEUCO &copy; 2025. LATIN THEOLOGICAL SEMINARY.</p>
-            </footer>
+  return (
+    <div className="flex flex-col lg:flex-row min-h-screen">
+      {/* Mobile Header */}
+      <header className="lg:hidden flex items-center justify-between px-4 py-3 bg-white border-b sticky top-0 z-50">
+        <div className="flex items-center gap-2">
+          <i className="fas fa-bible text-amber-700 text-xl"></i>
+          <span className="font-bold text-amber-900">Latin Theological Seminary</span>
         </div>
-    );
+        <button 
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="p-2 text-slate-600 hover:bg-slate-100 rounded-md"
+        >
+          <i className={`fas ${isSidebarOpen ? 'fa-times' : 'fa-bars'} text-xl`}></i>
+        </button>
+      </header>
+
+      {/* Sidebar Overlay for Mobile */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`
+        fixed inset-y-0 left-0 w-80 bg-white border-r z-50 transform transition-transform duration-300 lg:relative lg:translate-x-0
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        <Sidebar 
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          currentLessonId={currentLessonId}
+          onLessonClick={handleLessonChange}
+          modules={MODULES}
+          resources={RESOURCES}
+        />
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col min-h-screen bg-slate-50">
+        <Banner lesson={currentLesson} />
+        <div className="flex-1 max-w-5xl mx-auto w-full px-4 lg:px-8 py-8">
+          <LessonContent 
+            lessonId={currentLessonId} 
+            onNextLesson={(id) => handleLessonChange(id)} 
+          />
+        </div>
+        
+        {/* Footer Navigation (Mobile Quick Access) */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t px-4 py-2 flex justify-around items-center z-40 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
+           <button onClick={() => { setActiveTab('outline'); setIsSidebarOpen(true); }} className="flex flex-col items-center gap-1 text-slate-500">
+             <i className="fas fa-list-ol"></i>
+             <span className="text-xs">Lecciones</span>
+           </button>
+           <button onClick={() => { setActiveTab('resources'); setIsSidebarOpen(true); }} className="flex flex-col items-center gap-1 text-slate-500">
+             <i className="fas fa-file-alt"></i>
+             <span className="text-xs">Recursos</span>
+           </button>
+        </div>
+      </main>
+    </div>
+  );
 };
 
 export default App;
